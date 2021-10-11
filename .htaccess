@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteCond %{SERVER_PORT}!=443
-RewriteRule ^(.*)$ https://chaoswahl\.berlin/$1 [R=301,L]

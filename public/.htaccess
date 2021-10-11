@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteCond %{SERVER_PORT} !=443
+RewriteRule ^(.*)$ https://chaoswahl.berlin$1 [L,R=301]
+
+RewriteRule ^$ /home.php [L]
+
+RewriteBase /
+RewriteRule ^home\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /home.php [L]
