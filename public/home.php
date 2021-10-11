@@ -86,7 +86,7 @@ Fehlende Stimmzettel / zu wenig Wahlkabinen / so lange Wartezeiten, dass Wähler
                 <label for="address-number">Hausnummer (inkl. Adresszusatz)</label>
                 <input autocomplete="address-level4" type="text" id="address-number" name="address-number" required value="<?php echo get_address_value('number') ?>" /><br />
                 <label for="dateofbirth">Geburtsdatum</label>
-                <input autocomplete="bday"type="date" name="dateofbirth" id="dateofbirth" required /><br />
+                <input autocomplete="bday"type="date" name="dateofbirth" id="dateofbirth" value="<?php echo empty(get_creator_value('birth')) ? '' : date_format(get_creator_value('birth'), 'Y-m-d') ?>" required /><br />
                 <label for="phone">Telefonnummer</label>
                 <input autocomplete="tel"type="number" name="phone" id="phone" value="<?php echo get_creator_value('phone') ?>" /><br />
                 <label for="email">E-Mail</label>
