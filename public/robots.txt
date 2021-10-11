@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /stat/
+Disallow: /reportForm.php
+
+Sitemap: https://chaoswahl.berlin/sitemap.xml
