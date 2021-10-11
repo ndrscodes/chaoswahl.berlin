@@ -45,6 +45,9 @@ geb. am <?php echo date_format($report->creator->birth, 'd.m.Y') ?>, versichere 
             case ProblemType::WRONG_RESULT:
                 echo '<li>Evidenter Auszählungsfehler (bspw. Stimme nicht gezählt)</li>';
                 break;
+            case ProblemType::OTHER:
+                echo '<li>Sonstiges Problem</li>';
+                break;
         }
     }
     echo '</ol>';
