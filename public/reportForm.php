@@ -7,6 +7,8 @@ require '../vendor/phpmailer/phpmailer/src/SMTP.php';
 $config = require '../config/config.php';
 use Dompdf\Dompdf;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
 session_start();
 function generateMailBody(Report $report): string {
     $str = "Es wurde ein neuer Formulareintrag erstellt\r\n";
@@ -21,6 +23,7 @@ function generateMailBody(Report $report): string {
     if(isset($report->creator->phone)){
         $str .= "Mail: ".$report->creator->mail."\r\n";
     }
+
     switch($report->type){
         case PollType::PARLIAMENT:
             $str .= "Bundestagswahl\r\n";
@@ -37,7 +40,33 @@ function generateMailBody(Report $report): string {
         default:
             $str .= "Unbekannt\r\n";
     } 
-    $str .= implode(" ", $report->problems)."\r\n";
+
+    $str .= "Aufgetretene Probleme: ";
+    for($i = 0; $i < count($report->problems); $i++){
+        switch($report->problems[$i]){
+            case ProblemType::LATE_RESULT:
+                $str .= 'Stimmabgabe nach Bekanntgabe der Hochrechnungen';
+                break;
+            case ProblemType::LONG_WAIT:
+                $str .= 'Lange Wartezeit';
+                break;
+            case ProblemType::WRONG_BALLOT:
+                $str .= 'Falscher Stimmzettel';
+                break;
+            case ProblemType::WRONG_RESULT:
+                $str .= 'Evidenter Auszählungsfehler (bspw. Stimme nicht gezählt)';
+                break;
+            case ProblemType::OTHER:
+                $str .= 'Sonstiges Problem';
+                break;
+        }
+        if(count($report->problems) - 1 != $i){
+            $str .= ", ";
+        }
+        else{
+            $str .= "\r\n";
+        }
+    }
     $str .= "Erstellt: ".date_format($report->created, 'd.m.Y H:i:s')."\r\n";
     $str .= "Bezirk: ".$report->district."\r\n";
     $str .= "Raum: ".$report->room."\r\n";
@@ -68,6 +97,7 @@ function incrementReportCounter(){
 
 if($_SERVER['REQUEST_METHOD'] != 'POST'){
     header("HTTP/1.0 404 Not Found");
+    header("Location: /error.html");
     exit();
 }
 else{
@@ -84,7 +114,6 @@ else{
         header("Location: home.php");
         exit;
     }
-
     
     ob_start();
     include('../templates/form.php');
@@ -93,12 +122,16 @@ else{
     $dompdf = new Dompdf();
     $dompdf->loadHtml($form);
     
-    // (Optional) Setup the paper size and orientation
     $dompdf->setPaper("A4", "portrait");
     
-    // Render the HTML as PDF
     $dompdf->render();
     
+    incrementReportCounter();
+    header('Content-type: application/pdf');
+    $dompdf->stream(
+        'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
+        array('Attachment' => 0));
+
     if(isset($config->send_mail)
         && $config->send_mail
         && isset($config->smtp_host)
@@ -116,6 +149,7 @@ else{
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = $config->smtp_port;
         $mail->setFrom($config->mail_from);
+        $mail->CharSet = 'UTF-8';
         foreach($config->recipients as $recipient){
             $mail->addAddress($recipient);
         }
@@ -123,10 +157,4 @@ else{
         $mail->Body = generateMailBody($report);
         $mail->send();
     }
-    incrementReportCounter();
-    // Output the generated PDF to Browser
-    header('Content-type: application/pdf');
-    $dompdf->stream(
-        'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
-        array('Attachment' => 0));
 }
