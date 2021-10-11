@@ -45,10 +45,10 @@ class Report{
         if(isset($data['late-result']) && $data['late-result'] == 'on'){
             array_push($result, ProblemType::LATE_RESULT);
         }
-        if(isset($data['long-wait']) && $data['long-wait'] == 'on'){
+        if(isset($data['long-wait-time']) && $data['long-wait-time'] == 'on'){
             array_push($result, ProblemType::LONG_WAIT);
         }
-        if(isset($data['other-problem']) && $data['other-problem'] == 'on'){
+        if(isset($data['other']) && $data['other'] == 'on'){
             array_push($result, ProblemType::OTHER);
         }
         return $result;
