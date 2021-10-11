@@ -46,6 +46,26 @@ function generateMailBody(Report $report): string {
     return $str;
 }
 
+function incrementReportCounter(){
+    $file = '../count.txt';
+    $stream = fopen($file, 'r+');
+    if(!$stream){
+        return;
+    }
+    if(flock($stream, LOCK_EX)){
+        $size = filesize($file);
+        $count = 0;
+        if($size > 0){
+            $count = intval(fread($stream, filesize($file)));
+        }
+        ftruncate($stream, 0);
+        rewind($stream);
+        fwrite($stream, strval(++$count));
+        fflush($stream);
+        flock($stream, LOCK_UN);
+    }
+}
+
 if($_SERVER['REQUEST_METHOD'] != 'POST'){
     header("HTTP/1.0 404 Not Found");
     exit();
@@ -103,28 +123,10 @@ else{
         $mail->Body = generateMailBody($report);
         $mail->send();
     }
-    $file = '../count.txt';
-    if(!file_exists($file)){
-        if(!fopen($file, 'w')){
-            return;
-        }
-    }
-    $stream = fopen($file, 'r+');
-    if(!$stream){
-        return;
-    }
-    if(flock($stream, LOCK_EX)){
-        $size = filesize($file);
-        $count = 0;
-        if($size > 0){
-            $count = intval(fread($stream, filesize($file)));
-        }
-        ftruncate($stream, 0);
-        rewind($stream);
-        fwrite($stream, strval(++$count));
-        fflush($stream);
-        flock($stream, LOCK_UN);
-    }
+    incrementReportCounter();
     // Output the generated PDF to Browser
-    $dompdf->stream('chaoswahl.pdf');
+    header('Content-type: application/pdf');
+    $dompdf->stream(
+        'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
+        array('Attachment' => 0));
 }
