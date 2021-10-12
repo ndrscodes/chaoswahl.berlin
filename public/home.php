@@ -69,8 +69,8 @@ Fehlende Stimmzettel / zu wenig Wahlkabinen / so lange Wartezeiten, dass Wähler
 <p>Die Stimmabgabe ist der wichtigste Mitwirkungsakt der Bürger und sollte ernst genommen werden in einer Demokratie.</p>
 <p>Da keine der Berliner Parteien bereit ist, Verantwortung zu übernehmen, tun wir das. Wir haben einen Anwalt beauftragt,  Wahlprüfungsbeschwerde einzulegen und die Wahl wiederholen zu lassen*. Dazu brauchen wir <strong>Ihre Hilfe.</strong> </p>
 <p>Eine Beschwerde muss Substanz haben, deshalb wollen wir so viele Erfahrungsberichte wie möglich sammeln. Wenn Sie bei Ihrer Stimmabgabe mit Schwierigkeiten oder Auffälligkeiten konfrontiert worden sind, lassen Sie es uns bitte wissen.</p>
-<p>Alle eingehenden Berichte werden der Beschwerde beigefügt. (Dadurch werden sie nicht am Verfahren beteiligt und es kommen auch keine Prozesskosten auf Sie zu.)</p>
-<p>Nach dem Ausfüllen wird ein Dokument generiert, dass Sie bitte ausdrucken und unterschrieben per Post an uns senden, faxen oder persönlich in der Geschäftsstelle der PARTEI, Kopischstraße 10 in 10965 Kreuzberg, vorbeibringen können.</p>
+<p>Alle eingehenden Berichte werden der Beschwerde beigefügt. (Dadurch werden Sie nicht am Verfahren beteiligt und es kommen auch keine Prozesskosten auf Sie zu.)</p>
+<p>Nach dem Ausfüllen wird ein Dokument generiert, das Sie bitte ausdrucken und unterschrieben per Post an uns senden, faxen oder persönlich in der Geschäftsstelle der PARTEI, Kopischstraße 10 in 10965 Kreuzberg, vorbeibringen können.</p>
 <p>Auf Wunsch erhalten Sie eine von Martin Sonneborn unterschriebene Teilnahmeurkunde „Demokratieretter“ (wie bei den Bundesjugendspielen).</p>
 <p>Und jetzt: <strong>Ausfüllen, abschicken, Demokratie retten!</strong></p>
 <p>PS.: Die übermittelten Daten werden ausschließlich für die Wahlprüfungsbeschwerde genutzt. Wir sind ja nicht bei Google.</p>
