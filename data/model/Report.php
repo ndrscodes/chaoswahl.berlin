@@ -30,7 +30,7 @@ class Report{
         $this->room = $room;
         $this->problems = $problems;
         $this->creator = $creator;
-        $this->created = new DateTime();
+        $this->created = new DateTime('now', new DateTimeZone('Europe/Berlin'));
         $this->certificate_requested = $certificate_requested;
     }
     
@@ -71,7 +71,6 @@ class Report{
     }
 
     public static function from_data(array $data): Report {
-        $problems = self::build_problem_array($data);
         $report = new Report(
             Creator::from_data($data),
             $data['description'],
