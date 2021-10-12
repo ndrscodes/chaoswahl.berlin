@@ -10,6 +10,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
 session_start();
+
+function getFileName($report): string{
+    return 'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf';
+}
+
 function generateMailBody(Report $report): string {
     $str = "Es wurde ein neuer Formulareintrag erstellt\r\n";
     $str .= "Name: ".$report->creator->firstname.' '.$report->creator->lastname."\r\n";
@@ -130,7 +135,7 @@ else{
     if(!$config->smtp_debug){
         header('Content-type: application/pdf');
         $dompdf->stream(
-            'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
+            getFileName($report),
             array('Attachment' => 0));
     }
 
@@ -162,6 +167,9 @@ else{
                     'allow_self_signed' => true
                 )
             );
+        }
+        if($config->add_report_attachment){
+            $mail->addStringAttachment($dompdf->output(), getFileName($report), PHPMailer::ENCODING_BASE64, 'application/pdf');
         }
         $mail->CharSet = 'UTF-8';
         foreach($config->recipients as $recipient){
