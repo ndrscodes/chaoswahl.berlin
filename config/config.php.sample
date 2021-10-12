@@ -1,0 +1,15 @@
+<?php
+
+return (object) array(
+    'smtp_host' => 'smtp.some-random-server.berlin',
+    'smtp_port' => 465,
+    'smtp_user' => 'any@some-random-server.berlin',
+    'smtp_pass' => 'f00B@R',
+    'mail_from' => 'any@some-random-server.berlin',
+    'recipients' => array('your-mail-here@your-mailserver-here.com', 'your-colleague@your-mailserver-here.com'),
+    'send_mail' => true, //set this to false to disable mailing altogether
+    'mail_debug' => false, //if set to true, SMTP debug information will be returned instead of the report pdf
+    'smtp_debug' => false, //if set to true, LOWLEVEL debug information will be shown (if mail_debug is enabled)
+    'smtp_verify_ssl' => true, //if set to false, SMTP certificate validation will be disabled (CAUTION: this defeats the purpose of certificates!)
+    'add_report_attachment' => false, //add the report as an e-mail attachment
+);
