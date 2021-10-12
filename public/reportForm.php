@@ -23,7 +23,7 @@ function generateMailBody(Report $report): string {
     if(isset($report->creator->phone)){
         $str .= "Mail: ".$report->creator->mail."\r\n";
     }
-
+    $str .= "Wahl: ";
     switch($report->type){
         case PollType::PARLIAMENT:
             $str .= "Bundestagswahl\r\n";
