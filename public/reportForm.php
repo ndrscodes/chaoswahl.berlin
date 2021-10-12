@@ -127,10 +127,12 @@ else{
     $dompdf->render();
     
     incrementReportCounter();
-    header('Content-type: application/pdf');
-    $dompdf->stream(
-        'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
-        array('Attachment' => 0));
+    if(!$config->smtp_debug){
+        header('Content-type: application/pdf');
+        $dompdf->stream(
+            'chaoswahl_report_'.date_format($report->created, 'dmYHis').'.pdf',
+            array('Attachment' => 0));
+    }
 
     if(isset($config->send_mail)
         && $config->send_mail
@@ -146,9 +148,21 @@ else{
         $mail->SMTPAuth = true;
         $mail->Username = $config->smtp_user;
         $mail->Password = $config->smtp_pass;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = $config->smtp_port;
         $mail->setFrom($config->mail_from);
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        if($config->smtp_debug){
+            $mail->SMTPDebug = SMTP::DEBUG_LOWLEVEL;
+        }
+        if(!$config->smtp_verify_ssl){
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+        }
         $mail->CharSet = 'UTF-8';
         foreach($config->recipients as $recipient){
             $mail->addAddress($recipient);
